@@ -14,6 +14,7 @@
         <br />
         <br />
         <button type="button" onclick="SearchPlace()">Search</button>
+        <hr />
     </div>
     <div id="myMap"></div>
 </div>
@@ -61,106 +62,9 @@
 }
 
 @section Scripts {
-
+    <script src="~/js/map.js"></script>
     <script>
 
-        function SearchPlace()
-        {
-            var latitude = document.getElementById('latitude');
-            var longitude = document.getElementById('longitude');
-
-            var marker = createMarker(longitude, latitude);
-
-        }
-
-        document.addEventListener('DOMContentLoaded', function () {
-            getMap();
-        });
-
-        // Function to create a marker for a vehicle
-        function createMarker(longitude, latitude) {
-            // Define the icon and other properties based on the vehicle
-            let imgsrc = 'https://booksappstoragev2.blob.core.windows.net/books/pin-concrete.svg';
-            let deligataire = 'Ciment du Maroc';
-            let prestation = 'CIMAR GPS';
-
-            // Create the HTML content for the marker
-            let htmlContent = `
-                    <div class="mover" id="marker-${deviceID}">
-                        <img src="${imgsrc}" style="width:30px"/>
-                    </div>
-                `;
-
-            // Create the marker
-            let marker = new atlas.HtmlMarker({
-                htmlContent: htmlContent,
-                position: [-7.534624, 33.616812], // You need to specify a position
-                pixelOffset: [0, -15],
-                popup: new atlas.Popup({
-                    content: `
-                            <div style="padding:10px; background-color: rgba(255, 255, 128, .5);">
-                                <ul>
-                                    <li><strong>Entreprise:</strong> ${deligataire}</li>
-                                    <li><strong>Type:</strong> ${prestation}</li>
-                                    <li><strong>IMEI:</strong> </li>
-                                    <li><strong>Latitude:</strong> ${latitude}</li>
-                                    <li><strong>Longitude:</strong> ${longitude}</li>
-                                </ul>
-                            </div>
-                        `,
-                    pixelOffset: [0, -30]
-                })
-            });
-
-            // Return the created marker
-            return marker;
-        }
-
-        function getMap() {
-            // Initialize a map instance
-            var map = new atlas.Map('myMap', {
-                center: [-7.534624, 33.616812],
-                zoom: 16,
-                view: 'Auto',
-                style: 'satellite',
-                language: 'fr-FR',
-
-                // Add authentication details for connecting to Azure Maps
-                authOptions: {
-                    authType: 'subscriptionKey',
-                    subscriptionKey: '1JnWsaaLCjfbPcxFGIBPy41hUbFh239olcg7CvvMta7gBegVLi94JQQJ99AKAC5RqLJe0trMAAAgAZMP3DE2'
-                }
-            });
-
-            // Wait until the map resources are ready
-            map.events.add('ready', function () {
-                // Add map controls
-                map.controls.add(
-                    [
-                        new atlas.control.StyleControl({ mapStyles: ['road', 'grayscale_dark', 'night', 'satellite', 'satellite_road_labels'] }),
-                        new atlas.control.FullscreenControl({ style: 'auto' }),
-                        new atlas.control.ZoomControl(),
-                        new atlas.control.CompassControl(),
-                        new atlas.control.PitchControl()
-                    ],
-                    { position: 'top-right' }
-                );
-
-                // Create a marker for the vehicle
-                var marker = createMarker('123456789');
-
-                // Add the marker to the map
-                map.markers.add(marker);
-
-                // Add a click event listener for toggling the popup
-                const markerElement = document.querySelector(`#marker-${123456789}`);
-                if (markerElement) {
-                    markerElement.addEventListener('click', () => {
-                        marker.togglePopup();
-                    });
-                }
-            });
-        }
     </script>
 
 }
